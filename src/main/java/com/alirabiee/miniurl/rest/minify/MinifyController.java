@@ -34,7 +34,6 @@ public class MinifyController {
     public ModelAndView minify(@RequestParam final String url,
                                            @RequestParam( "g-recaptcha-response" ) final String captcha,
                                            final HttpServletResponse response) throws IOException {
-//        return () -> {
         if ( log.isLoggable( Level.FINE ) ) log.fine( "url = " + url );
         if ( log.isLoggable( Level.FINE ) ) log.fine( "captcha = " + captcha );
 
@@ -63,6 +62,5 @@ public class MinifyController {
             response.sendRedirect( "/?error=" + SystemErrorCode.CAPTCHA_ERROR );
             return new ModelAndView( "home" );
         }
-//        };
     }
 }
