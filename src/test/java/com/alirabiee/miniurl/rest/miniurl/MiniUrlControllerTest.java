@@ -18,7 +18,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Created by A on 2017-04-12.
+ * Created by ali.
+ *
+ * Functionality test of {@link MiniUrlController}
  */
 @RunWith( SpringRunner.class )
 @SpringBootTest( classes = { Main.class, Configuration.class } )

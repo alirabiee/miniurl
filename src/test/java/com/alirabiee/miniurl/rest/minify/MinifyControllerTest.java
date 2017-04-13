@@ -22,7 +22,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Created by A on 2017-04-12.
+ * Created by ali.
+ *
+ * Functionality test of {@link MinifyController}
  */
 @RunWith( SpringRunner.class )
 @SpringBootTest( classes = { Main.class, Configuration.class } )
@@ -39,37 +41,57 @@ public class MinifyControllerTest {
         BDDMockito.given( captchaAPI.verify( "" ) ).willReturn( true );
     }
 
+    /**
+     * Test the system correctly validates an invalid URL
+     * @throws Exception
+     */
     @Test
     public void testInvalidURL() throws Exception {
-        mvc.perform(
-            MockMvcRequestBuilders.post( "/minify" )
-                                  .accept( MediaType.ALL )
-                                  .contentType( MediaType.ALL )
-                                  .param( "url", "invalid-url" )
-                                  .param( "g-recaptcha-response", "" )
-        ).andExpect( status().is3xxRedirection() )
-           .andExpect( MockMvcResultMatchers.redirectedUrlPattern( "/*error=" + SystemErrorCode.VALIDATION_ERROR ) );
+        mvc
+            .perform(
+                MockMvcRequestBuilders.post( "/minify" )
+                                      .accept( MediaType.ALL )
+                                      .contentType( MediaType.ALL )
+                                      .param( "url", "invalid-url" )
+                                      .param( "g-recaptcha-response", "" )
+            )
+            .andExpect( status().is3xxRedirection() )
+            .andExpect( MockMvcResultMatchers.redirectedUrlPattern( "/*error=" + SystemErrorCode.VALIDATION_ERROR ) );
     }
 
+    /**
+     * Test the system generates the correct shortened URL for a specific URL
+     * @throws Exception
+     */
     @Test
     public void testNewUrl() throws Exception {
-        mvc.perform(
-            MockMvcRequestBuilders.post( "/minify" )
-                                  .accept( MediaType.ALL )
-                                  .contentType( MediaType.ALL )
-                                  .param( "url", "http://goo.gl/" )
-                                  .param( "g-recaptcha-response", "" )
-        ).andExpect( status().isOk() ).andExpect( MockMvcResultMatchers.model().attribute( "minified", "r" ) );
+        mvc
+            .perform(
+                MockMvcRequestBuilders.post( "/minify" )
+                                      .accept( MediaType.ALL )
+                                      .contentType( MediaType.ALL )
+                                      .param( "url", "http://goo.gl/" )
+                                      .param( "g-recaptcha-response", "" )
+            )
+            .andExpect( status().isOk() )
+            .andExpect( MockMvcResultMatchers.model().attribute( "minified", "ri3dl" ) );
     }
 
+    /**
+     * Test the system generates the correct shortened URL for the same URL
+     * @throws Exception
+     */
     @Test
     public void testRepeatedUrl() throws Exception {
-        mvc.perform(
-            MockMvcRequestBuilders.post( "/minify" )
-                                  .accept( MediaType.ALL )
-                                  .contentType( MediaType.ALL )
-                                  .param( "url", "http://goo.gl/" )
-                                  .param( "g-recaptcha-response", "" )
-        ).andExpect( status().isOk() ).andExpect( MockMvcResultMatchers.model().attribute( "minified", "r" ) );
+        mvc
+            .perform(
+                MockMvcRequestBuilders.post( "/minify" )
+                                      .accept( MediaType.ALL )
+                                      .contentType( MediaType.ALL )
+                                      .param( "url", "http://goo.gl/" )
+                                      .param( "g-recaptcha-response", "" )
+            )
+            .andExpect( status().isOk() )
+            .andExpect( MockMvcResultMatchers.model().attribute( "minified", "ri3dl" ) );
     }
 }
