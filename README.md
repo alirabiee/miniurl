@@ -13,7 +13,7 @@ This is a web application providing the simplest interface to shorten arbitrary 
 * Shortening arbitrary URLs
 * Soft duplicate prevention
 * Stateless
-* Simple UI
+* Iterative URL exploitation prevention
 * reCAPTCHA-enabled, hence CSRF protected
 * XSS free
 * In-memory database (must be changed for production)
