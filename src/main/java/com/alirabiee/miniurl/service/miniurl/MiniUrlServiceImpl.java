@@ -19,6 +19,9 @@ import java.util.logging.Level;
 @Log
 public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
 
+    private static final long HASH_CODE_NORMALIZATION_DENOMINATOR = 20153;
+    private static final long HASH_CODE_MAX_MAGNITUDE = 1000000;
+
     @Autowired
     private MiniUrlRepository repository;
 
@@ -31,32 +34,36 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
         if ( log.isLoggable( Level.FINE ) ) log.fine( "miniUrl = " + miniUrl );
 
         if ( miniUrl == null ) {
-            miniUrl = MiniUrl.builder().originalUrl( url ).hits( 0L ).hashCode( url.hashCode() ).build();
+            miniUrl = MiniUrl.builder()
+                             .originalUrl( url )
+                             .hits( 0L )
+                             .hashCode( normalizeHashCode( url.hashCode() ) )
+                             .build();
             repository.save( miniUrl );
         }
 
         if ( log.isLoggable( Level.FINE ) ) log.fine( "miniUrl = " + miniUrl );
 
-        // There are several ways to choose the format, but since we've already chosen to drop 'i', then why not
-        return String.format( "%si%s", IDEncoder.encode( miniUrl.getId() ), IDEncoder.encode( miniUrl.getHashCode() ) );
+        return IDEncoder.encode( miniUrl.getId() * HASH_CODE_MAX_MAGNITUDE + miniUrl.getHashCode() );
+    }
+
+    private Integer normalizeHashCode(final int hashCode) {
+        return Math.max( 1, Math.abs( hashCode / (int) HASH_CODE_NORMALIZATION_DENOMINATOR ) );
     }
 
     @Override
     public String findUrl(final String encodedId) throws NotFoundException {
         try {
-            final String[] split = encodedId.split( "i" );
+            long decodedId = IDEncoder.decode( encodedId );
 
-            long decodedId = IDEncoder.decode( split[0] );
-            long decodedHashCode = IDEncoder.decode( split[1] );
-
-            final MiniUrl miniUrl = repository.findOne( decodedId );
+            final MiniUrl miniUrl = repository.findOne( decodedId / HASH_CODE_MAX_MAGNITUDE );
 
             if ( miniUrl == null ) {
                 throw new NotFoundException();
             }
 
             // Validate the hash!
-            if ( decodedHashCode != miniUrl.getHashCode() ) {
+            if ( decodedId % HASH_CODE_MAX_MAGNITUDE != miniUrl.getHashCode() ) {
                 throw new NotFoundException();
             }
 

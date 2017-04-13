@@ -23,12 +23,4 @@ public class MiniUrl {
     private Integer hashCode;
     private String originalUrl;
     private Long hits = 0L;
-
-    public Integer getHashCode() {
-        if ( hashCode != null ) {
-            return Math.max( 1, Math.abs( hashCode / 10111 ) ); // only to make it a small positive
-        }
-
-        return null;
-    }
 }

@@ -74,7 +74,7 @@ public class MinifyControllerTest {
                                       .param( "g-recaptcha-response", "" )
             )
             .andExpect( status().isOk() )
-            .andExpect( MockMvcResultMatchers.model().attribute( "minified", "ri3dl" ) );
+            .andExpect( MockMvcResultMatchers.model().attribute( "minified", "ZVlG" ) );
     }
 
     /**
@@ -92,6 +92,6 @@ public class MinifyControllerTest {
                                       .param( "g-recaptcha-response", "" )
             )
             .andExpect( status().isOk() )
-            .andExpect( MockMvcResultMatchers.model().attribute( "minified", "ri3dl" ) );
+            .andExpect( MockMvcResultMatchers.model().attribute( "minified", "ZVlG" ) );
     }
 }
