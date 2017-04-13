@@ -37,6 +37,7 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
 
         if ( log.isLoggable( Level.FINE ) ) log.fine( "miniUrl = " + miniUrl );
 
+        // There are several ways to choose the format, but since we've already chosen to drop 'i', then why not
         return String.format( "%si%s", IDEncoder.encode( miniUrl.getId() ), IDEncoder.encode( miniUrl.getHashCode() ) );
     }
 
@@ -54,6 +55,7 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
                 throw new NotFoundException();
             }
 
+            // Validate the hash!
             if ( decodedHashCode != miniUrl.getHashCode() ) {
                 throw new NotFoundException();
             }
@@ -62,11 +64,16 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
 
             return miniUrl.getOriginalUrl();
         }
-        catch ( Exception e ) {
+        catch ( ValidationException | IndexOutOfBoundsException e ) {
             throw new NotFoundException();
         }
     }
 
+    /**
+     * Validates URL's syntax
+     * @param url
+     * @throws ValidationException
+     */
     private void validate(final String url) throws ValidationException {
         if ( !url.matches( "https?:\\/\\/[a-zA-Z][-a-zA-Z0-9._]{1,256}" +
                            "\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&/=]*)" ) ) {

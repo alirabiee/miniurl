@@ -9,7 +9,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 
 /**
- * Created by ali on 2/19/17.
+ * Created by ali.
+ *
+ * Asynchronous configuration class for Spring.
  */
 @Configuration
 @EnableAsync

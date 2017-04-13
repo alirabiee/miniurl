@@ -14,7 +14,9 @@ import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by ali on 2/19/17.
+ * Created by ali.
+ *
+ * Cache configuration class for Spring.
  */
 @EnableCaching
 @Configuration

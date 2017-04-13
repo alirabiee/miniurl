@@ -3,7 +3,7 @@ package com.alirabiee.miniurl.rest.minify;
 import com.alirabiee.miniurl.Configuration;
 import com.alirabiee.miniurl.Main;
 import com.alirabiee.sys.constant.SystemErrorCode;
-import com.alirabiee.sys.utility.CaptchaAPI;
+import com.alirabiee.sys.utility.captcha.CaptchaAPI;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

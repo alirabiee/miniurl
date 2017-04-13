@@ -1,4 +1,4 @@
-package com.alirabiee.sys.utility;
+package com.alirabiee.sys.utility.captcha;
 
 /**
  * Created by ali.

@@ -6,7 +6,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 /**
- * Created by ali on 2/19/17.
+ * Created by ali.
+ *
+ * Provides basic functionality to all system services.
  */
 public abstract class BaseService {
     private final ThreadPoolTaskExecutor executor;

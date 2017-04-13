@@ -3,7 +3,7 @@ package com.alirabiee.miniurl.rest.minify;
 import com.alirabiee.miniurl.service.miniurl.MiniUrlService;
 import com.alirabiee.sys.constant.SystemErrorCode;
 import com.alirabiee.sys.service.exception.ValidationException;
-import com.alirabiee.sys.utility.CaptchaAPI;
+import com.alirabiee.sys.utility.captcha.CaptchaAPI;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +18,8 @@ import java.util.logging.Level;
 
 /**
  * Created by ali on 4/12/17.
+ *
+ * This controller is responsible to handle URL shortening requests.
  */
 @Controller
 @RequestMapping( "/minify" )
@@ -37,6 +39,7 @@ public class MinifyController {
         if ( log.isLoggable( Level.FINE ) ) log.fine( "url = " + url );
         if ( log.isLoggable( Level.FINE ) ) log.fine( "captcha = " + captcha );
 
+        // Verify the user's captcha
         final boolean captchaSuccess = captchaAPI.verify( captcha );
 
         if ( log.isLoggable( Level.FINE ) ) log.fine( "captchaSuccess = " + captchaSuccess );

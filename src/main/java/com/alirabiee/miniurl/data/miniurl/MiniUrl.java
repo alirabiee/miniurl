@@ -26,7 +26,7 @@ public class MiniUrl {
 
     public Integer getHashCode() {
         if ( hashCode != null ) {
-            return Math.max( 1, Math.abs( hashCode / 10111 ) );
+            return Math.max( 1, Math.abs( hashCode / 10111 ) ); // only to make it a small positive
         }
 
         return null;

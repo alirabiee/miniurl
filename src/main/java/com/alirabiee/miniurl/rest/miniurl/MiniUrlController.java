@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by ali on 4/12/17.
+ * Created by ali.
+ *
+ * This controller is responsible to handle the home screen and shortened URLs.
  */
-
 @Controller
 @RequestMapping
 @Log
@@ -27,20 +28,22 @@ public class MiniUrlController {
     public String home() {
         return "home";
     }
+
     @RequestMapping( "/{encodedId:.*}" )
     @ResponseBody
     public String rest(@PathVariable final String encodedId, final HttpServletResponse response) {
+        response.setStatus( 301 );
+
         try {
             final String url = miniUrlService.findUrl( encodedId );
 
-            response.setStatus( 301 );
             response.addHeader( "Location", url );
 
             return "redirect";
         }
         catch ( NotFoundException e ) {
-            response.setStatus( 301 );
             response.addHeader( "Location", "/" );
+
             return "home";
         }
     }

@@ -1,4 +1,4 @@
-package com.alirabiee.sys.utility;
+package com.alirabiee.sys.utility.captcha;
 
 import com.alirabiee.sys.config.SystemFlagsConfiguration;
 import com.mashape.unirest.http.JsonNode;
@@ -13,6 +13,8 @@ import java.util.logging.Level;
 
 /**
  * Created by ali.
+ *
+ * This class proxies the reCAPTCHA API endpoints.
  */
 @Component
 @Log
