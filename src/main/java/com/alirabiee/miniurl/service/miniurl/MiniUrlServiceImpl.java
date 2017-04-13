@@ -19,8 +19,8 @@ import java.util.logging.Level;
 @Log
 public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
 
-    private static final long HASH_CODE_NORMALIZATION_DENOMINATOR = 20153;
-    private static final long HASH_CODE_MAX_MAGNITUDE = 1000000;
+    private static final long HASH_CODE_NORMALIZATION_DENOMINATOR = 21487;
+    private static final long HASH_CODE_MAX_MAGNITUDE = 100000;
 
     @Autowired
     private MiniUrlRepository repository;
