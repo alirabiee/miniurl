@@ -20,6 +20,15 @@ public class MiniUrl {
     @Id
     @GeneratedValue
     private Long id;
+    private Integer hashCode;
     private String originalUrl;
     private Long hits = 0L;
+
+    public Integer getHashCode() {
+        if ( hashCode != null ) {
+            return Math.max( 1, Math.abs( hashCode / 10111 ) );
+        }
+
+        return null;
+    }
 }

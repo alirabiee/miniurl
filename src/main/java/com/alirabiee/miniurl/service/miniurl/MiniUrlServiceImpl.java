@@ -31,19 +31,22 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
         if ( log.isLoggable( Level.FINE ) ) log.fine( "miniUrl = " + miniUrl );
 
         if ( miniUrl == null ) {
-            miniUrl = MiniUrl.builder().originalUrl( url ).hits( 0L ).build();
+            miniUrl = MiniUrl.builder().originalUrl( url ).hits( 0L ).hashCode( url.hashCode() ).build();
             repository.save( miniUrl );
         }
 
         if ( log.isLoggable( Level.FINE ) ) log.fine( "miniUrl = " + miniUrl );
 
-        return IDEncoder.encode( miniUrl.getId() );
+        return String.format( "%si%s", IDEncoder.encode( miniUrl.getId() ), IDEncoder.encode( miniUrl.getHashCode() ) );
     }
 
     @Override
     public String findUrl(final String encodedId) throws NotFoundException {
         try {
-            long decodedId = IDEncoder.decode( encodedId );
+            final String[] split = encodedId.split( "i" );
+
+            long decodedId = IDEncoder.decode( split[0] );
+            long decodedHashCode = IDEncoder.decode( split[1] );
 
             final MiniUrl miniUrl = repository.findOne( decodedId );
 
@@ -51,18 +54,22 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
                 throw new NotFoundException();
             }
 
+            if ( decodedHashCode != miniUrl.getHashCode() ) {
+                throw new NotFoundException();
+            }
+
             miniUrl.setHits( miniUrl.getHits() + 1 );
 
             return miniUrl.getOriginalUrl();
         }
-        catch ( ValidationException e ) {
+        catch ( Exception e ) {
             throw new NotFoundException();
         }
     }
 
     private void validate(final String url) throws ValidationException {
         if ( !url.matches( "https?:\\/\\/[a-zA-Z][-a-zA-Z0-9._]{1,256}" +
-                           "\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)" ) ) {
+                           "\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&/=]*)" ) ) {
             throw new ValidationException();
         }
     }

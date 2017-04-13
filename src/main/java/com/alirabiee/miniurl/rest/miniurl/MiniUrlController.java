@@ -39,6 +39,8 @@ public class MiniUrlController {
             return "redirect";
         }
         catch ( NotFoundException e ) {
+            response.setStatus( 301 );
+            response.addHeader( "Location", "/" );
             return "home";
         }
     }
