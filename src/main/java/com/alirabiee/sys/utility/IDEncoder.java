@@ -8,8 +8,8 @@ import com.alirabiee.sys.service.exception.ValidationException;
 public class IDEncoder {
 
     /**
-     * The alphabet is in the set [a-zA-Z0-9_-] with the exclusion of [i].
-     * The reason for the exclusion is to prevent accidental generation a URL suffix that matches
+     * The alphabet is in the set [a-zA-Z0-9_-] with the exclusion of [i]. It is randomized to prevent guessing the
+     * sequence. The reason for the exclusion is to prevent accidental generation a URL suffix that matches
      * system service endpoints.
      */
     private static final String ALPHABET = "trI6ZQSVB-XbkTD3CwAngFmU02csWf9Pe1px5oaLhGqv8OJyN7djK_zlHEYuM4R";
