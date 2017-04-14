@@ -47,7 +47,8 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
 
         if ( log.isLoggable( Level.FINE ) ) log.fine( "miniUrl = " + miniUrl );
 
-        // This method effectively reduces the space of possible IDs from 2^63-1 to 2^46-1 which is still a lot
+        // This method effectively reduces the space of possible IDs from 2^63-1 to 2^46-1 which is still a lot. It also
+        // contributes 2.8 characters to the length of the generated suffix.
         return IDEncoder.encode( miniUrl.getId() * HASH_CODE_MAX_MAGNITUDE + miniUrl.getHashCode() );
     }
 
