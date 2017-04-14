@@ -13,12 +13,15 @@ import org.springframework.stereotype.Service;
 import java.util.logging.Level;
 
 /**
- * Created by ali on 4/12/17.
+ * Created by ali.
  */
 @Service
 @Log
 public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
 
+    /**
+     * Smallest prime that reduces 32-bit integer space to the largest space in [0, HASH_CODE_MAX_MAGNITUDE]
+     */
     private static final long HASH_CODE_NORMALIZATION_DENOMINATOR = 21487;
     private static final long HASH_CODE_MAX_MAGNITUDE = 100000;
 
@@ -44,9 +47,16 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
 
         if ( log.isLoggable( Level.FINE ) ) log.fine( "miniUrl = " + miniUrl );
 
+        // This method effectively reduces the space of possible IDs from 2^63-1 to 2^46-1 which is still a lot
         return IDEncoder.encode( miniUrl.getId() * HASH_CODE_MAX_MAGNITUDE + miniUrl.getHashCode() );
     }
 
+    /**
+     * Normalizes the hashCode into a number in the range (0, HASH_CODE_MAX_MAGNITUDE).
+     *
+     * @param hashCode
+     * @return
+     */
     private Integer normalizeHashCode(final int hashCode) {
         return Math.max( 1, Math.abs( hashCode / (int) HASH_CODE_NORMALIZATION_DENOMINATOR ) );
     }
