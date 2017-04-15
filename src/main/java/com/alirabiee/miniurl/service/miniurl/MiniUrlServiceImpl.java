@@ -82,7 +82,7 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
 
             return miniUrl.getOriginalUrl();
         }
-        catch ( ValidationException | IndexOutOfBoundsException e ) {
+        catch ( ValidationException e ) {
             throw new NotFoundException();
         }
     }
