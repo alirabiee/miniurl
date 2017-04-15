@@ -39,7 +39,9 @@ public class GoogleReCaptchaAPI implements CaptchaAPI {
         try {
             final JsonNode body = Unirest.post( "https://www.google.com/recaptcha/api/siteverify" )
                                          .field( "secret", environment.getProperty( "recaptcha.secret-key" ) )
-                                         .field( "response", captcha ).asJson().getBody();
+                                         .field( "response", captcha )
+                                         .asJson()
+                                         .getBody();
 
             if ( log.isLoggable( Level.FINE ) ) log.fine( "captcha response body = " + body );
 
