@@ -3,7 +3,6 @@ package com.alirabiee.sys.utility.captcha;
 import com.alirabiee.sys.config.SystemFlagsConfiguration;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -47,7 +46,7 @@ public class GoogleReCaptchaAPI implements CaptchaAPI {
 
             return body.getObject().optBoolean( "success" );
         }
-        catch ( UnirestException e ) {
+        catch ( Exception e ) {
             log.severe( e.toString() );
         }
 
