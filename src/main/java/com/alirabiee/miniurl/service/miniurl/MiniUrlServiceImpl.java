@@ -86,6 +86,8 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
                 return null;
             } );
 
+            if ( log.isLoggable( Level.FINE ) ) log.fine( "miniUrl = " + miniUrl );
+
             return miniUrl.getOriginalUrl();
         }
         catch ( ValidationException e ) {
