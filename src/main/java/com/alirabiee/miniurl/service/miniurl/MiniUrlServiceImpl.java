@@ -78,7 +78,13 @@ public class MiniUrlServiceImpl extends BaseService implements MiniUrlService {
                 throw new NotFoundException();
             }
 
-            miniUrl.setHits( miniUrl.getHits() + 1 );
+            runTask( () -> {
+                miniUrl.setHits( miniUrl.getHits() + 1 );
+
+                repository.save( miniUrl );
+
+                return null;
+            } );
 
             return miniUrl.getOriginalUrl();
         }
